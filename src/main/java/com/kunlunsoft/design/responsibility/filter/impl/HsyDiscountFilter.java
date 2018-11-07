@@ -16,7 +16,7 @@ import java.util.Date;
  */
 @Component
 public class DiscountFilter implements ICalculateDealFilter {
-    private static final Logger log = Logger.getLogger(HsyDiscountFilter.class);
+    private static final Logger log = Logger.getLogger(DiscountFilter.class);
     @Resource
     private ProductBusiness productBusiness;
     @Resource
@@ -32,7 +32,7 @@ public class DiscountFilter implements ICalculateDealFilter {
         }
 
         ProductDetailsDto productDetail = productBusiness.queryNewProductDetailById(calculateInfo.getProductId().toString(), true, SpringMVCUtil.getKeyCache(requestSafeThreadParamDto.getCid(), Constant.REDIS_KEY_ACCESS_TOKEN));
-        if (!PurchaseBusiness.isHsyProduct(productDetail.getValue().getProductSpec().getIsvAppId())) {
+        if (!PurchaseBusiness.isXXXProduct(productDetail.getValue().getProductSpec().getIsvAppId())) {
             return;
         }
         String startDate = calculateInfo.getStartDate();
