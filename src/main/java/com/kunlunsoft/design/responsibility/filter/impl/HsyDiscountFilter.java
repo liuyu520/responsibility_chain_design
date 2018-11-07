@@ -12,10 +12,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 /***
- * 好生意,新购和续购,3年打九折
+ * 新购和续购,3年打九折
  */
 @Component
-public class HsyDiscountFilter implements ICalculateDealFilter {
+public class DiscountFilter implements ICalculateDealFilter {
     private static final Logger log = Logger.getLogger(HsyDiscountFilter.class);
     @Resource
     private ProductBusiness productBusiness;
@@ -37,7 +37,6 @@ public class HsyDiscountFilter implements ICalculateDealFilter {
         }
         String startDate = calculateInfo.getStartDate();
         String endDate = calculateInfo.getEndDate();
-        Date endDateTime = DateTimeUtil.getDateAfter(DateTimeUtil.getDate4Str(endDate), 2);//做下容错
         Date startDatetime = DateTimeUtil.getDate4Str(startDate);
         int deltaYears = DateTimeUtil.getYear(endDateTime) - DateTimeUtil.getYear(startDatetime);
         int buyYears = 3;
@@ -51,7 +50,7 @@ public class HsyDiscountFilter implements ICalculateDealFilter {
         //需要九折
         CalculatePriceDto calculatePriceDto = calculateResponse.getCalculatePriceDto();
         PriceResult priceResult = calculatePriceDto.value;
-        BigDecimal discountRate = new BigDecimal(RedisCacheUtil.getHsyDiscountWhenBuyThreeYears());
+        BigDecimal discountRate = new BigDecimal(RedisCacheUtil.getDiscountWhenBuyThreeYears());
         BigDecimal newPayPrice = priceResult.getPrice().multiply(discountRate);
         BigDecimal newDiscountPrice = priceResult.getPrice().subtract(newPayPrice);
 
